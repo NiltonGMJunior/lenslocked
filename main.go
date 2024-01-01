@@ -38,11 +38,18 @@ func faqHandler(w http.ResponseWriter, r *http.Request) {
   `)
 }
 
+func paramHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	id := chi.URLParam(r, "id")
+	fmt.Fprint(w, "<h1>ID: "+id+"</h1>")
+}
+
 func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
+	r.Get("/param/{id}", paramHandler)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
