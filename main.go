@@ -47,11 +47,16 @@ func paramHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	// r.Use(middleware.Logger)
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
-	r.Get("/param/{id}", paramHandler)
+	// r.Get("/param/{id}", paramHandler)
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.Logger)
+		r.Get("/param/{id}", paramHandler)
+	})
+
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
