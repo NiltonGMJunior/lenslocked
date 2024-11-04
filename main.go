@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"internal/fmtsort"
 	"net/http"
 	"path/filepath"
 
@@ -60,11 +59,6 @@ func main() {
 	r.Get("/", homeHandler)
 	r.Get("/contact", contactHandler)
 	r.Get("/faq", faqHandler)
-	// r.With(middleware.Logger).Get("/galleries/{id}", func(w http.ResponseWriter, r *http.Request) { 
-	// 	w.Header().Set("Content-Type", "text/html, charset=utf-8")
-	// 	id := chi.URLParam(r, "id")
-	// 	fmt.Fprintf(w, "<h1>Gallery %s</h1>", id)
-	// })
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
