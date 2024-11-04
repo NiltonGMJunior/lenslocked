@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"internal/fmtsort"
 	"net/http"
 	"path/filepath"
 
@@ -15,11 +16,15 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	tplPath := filepath.Join("templates", "home.gohtml")
 	tpl, err := template.ParseFiles(tplPath)
 	if err != nil {
-		panic(err) // TODO: Remove the panic
+		fmt.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return
 	}
 	err = tpl.Execute(w, nil)
 	if err != nil {
-		panic(err) // TODO: Remove the panic
+		fmt.Printf("executing template: %v", err)
+		http.Error(w, "There was an error executing the template.", http.StatusInternalServerError)
+		return
 	}
 }
 
